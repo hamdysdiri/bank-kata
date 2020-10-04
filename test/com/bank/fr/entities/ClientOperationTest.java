@@ -20,13 +20,13 @@ class ClientOperationTest {
 	void setUp() {
 		account = new Account(90);
 		client = new Client(1, "ralph", account);
-		clientOperation = new ClientOperation(account);
+		clientOperation = new ClientOperation(account, 0);
 	}
 
 	@Test
 	void whenClientDepositInHisAccount_ThenBalanceChanges() {
 		clientOperation.operation(OperationType.DEPOSIT, 50);
-		assertEquals(140, client.getAccount().getAccountBalance());
+		assertEquals(140, client.getAccount().getBalance());
 
 	}
 
@@ -61,7 +61,7 @@ class ClientOperationTest {
 	@Test
 	void whenClientRetreiveMoney_ThenBalanceChanges() {
 		clientOperation.operation(OperationType.WITHDRAWAL, 50);
-		assertEquals(40, client.getAccount().getAccountBalance());
+		assertEquals(40, client.getAccount().getBalance());
 	}
 
 	@Test
@@ -87,4 +87,5 @@ class ClientOperationTest {
 
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
+
 }

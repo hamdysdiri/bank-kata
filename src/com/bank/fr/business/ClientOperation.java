@@ -1,6 +1,8 @@
 package com.bank.fr.business;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import com.bank.fr.entities.Account;
 
@@ -10,14 +12,16 @@ public class ClientOperation {
 	private final LocalDateTime amountDate;
 	private int amount;
 
-	public ClientOperation(Account account) {
+	public ClientOperation(Account account, int amount) {
 		super();
 		this.account = account;
 		this.amountDate = LocalDateTime.now();
+		this.amount = amount;
 	}
 
-	public LocalDateTime getAmountDate() {
-		return amountDate;
+	public String getAmountDate() {
+		DateTimeFormatter meduimDateForm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+		return meduimDateForm.format(amountDate);
 	}
 
 	public int getAmount() {
@@ -34,12 +38,14 @@ public class ClientOperation {
 		case DEPOSIT:
 			validate(amount);
 			setAmount(amount);
-			this.account.setAccountBalance(this.account.getAccountBalance() + getAmount());
+			account.setBalance(this.account.getBalance() + getAmount());
+			account.saveHistory(account, amount);
 			break;
 		case WITHDRAWAL:
 			validate(amount);
 			setAmount(amount);
-			this.account.setAccountBalance(this.account.getAccountBalance() - getAmount());
+			account.setBalance(this.account.getBalance() - getAmount());
+			account.saveHistory(account, amount);
 			break;
 		default:
 			throw new IllegalArgumentException("Unkown Operation.");
@@ -48,8 +54,9 @@ public class ClientOperation {
 	}
 
 	private void validate(int amount) {
-		assert this.account.getAccountBalance() >= amount : "balance cannot be less than zero";
+		assert this.account.getBalance() >= amount : "balance cannot be less than zero";
 		assert amount > 0 : "cannot deposit negative amount";
 
 	}
+
 }

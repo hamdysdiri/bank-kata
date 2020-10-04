@@ -1,47 +1,46 @@
 package com.bank.fr.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.bank.fr.business.ClientOperation;
+
 public class Account {
 
 	private int balance;
+	private List<ClientOperation> operations = new ArrayList<>();
 
-	public Account(int accountBalance) {
+	public Account(int balance) {
 		super();
-		this.balance = accountBalance;
+		this.balance = balance;
 	}
 
-	public int getAccountBalance() {
+	public int getBalance() {
 		return balance;
 	}
 
-	public void setAccountBalance(int accountBalance) {
-		this.balance = accountBalance;
+	public void setBalance(int balance) {
+		this.balance = balance;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + balance;
-		return result;
+	public List<ClientOperation> getOperations() {
+		return operations;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Account other = (Account) obj;
-		if (balance != other.balance)
-			return false;
-		return true;
+	public void setOperations(List<ClientOperation> operations) {
+		this.operations = operations;
 	}
 
-	@Override
-	public String toString() {
-		return "Account [balance=" + balance + "]";
+	public void saveHistory(Account account, int amount) {
+		operations.add(new ClientOperation(account, amount));
+	}
+
+	public void printHistory() {
+		System.out.println("Account Balance=" + getBalance() + "\n" + "History:");
+		operations.forEach(x -> {
+			System.out.println("Date=" + x.getAmountDate());
+			System.out.println("Amount=" + x.getAmount() + "");
+		});
 	}
 
 }
