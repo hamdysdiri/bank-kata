@@ -36,6 +36,7 @@ public class ClientOperation {
 			updateBalance();
 			break;
 		case WITHDRAWAL:
+			validate(amount);
 			setAmount(amount);
 			this.account.setAccountBalance(this.account.getAccountBalance() - getAmount());
 			break;
