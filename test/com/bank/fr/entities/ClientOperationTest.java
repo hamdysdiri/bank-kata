@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.bank.fr.business.ClientOperation;
 import com.bank.fr.business.OperationType;
 
-class AccountTest {
+class ClientOperationTest {
 
 	private Account account;
 	private Client client;
@@ -76,4 +76,15 @@ class AccountTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 
+	@Test
+	void whenClientRetriveFromHisAccountAndBalanceIsLessThanZero_ThenAssertionErrorThrown() {
+		AssertionError exception = assertThrows(AssertionError.class, () -> {
+			clientOperation.operation(OperationType.WITHDRAWAL, 100);
+		});
+
+		String expectedMessage = "balance cannot be less than zero";
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
 }
