@@ -31,7 +31,7 @@ class AccountTest {
 	}
 
 	@Test
-	void whenClientDepositInHisAccount_ThenAssertionErrorThrown() {
+	void whenClientDepositInHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
 
 		AssertionError exception = assertThrows(AssertionError.class, () -> {
 			clientOperation.operation(OperationType.DEPOSIT, -50);
@@ -61,7 +61,19 @@ class AccountTest {
 	@Test
 	void whenClientRetreiveMoney_ThenBalanceChanges() {
 		clientOperation.operation(OperationType.WITHDRAWAL, 50);
-		System.out.println(this.client.getAccount().getAccountBalance());
 		assertEquals(40, client.getAccount().getAccountBalance());
 	}
+
+	@Test
+	void whenClientRetreiveFromHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
+		AssertionError exception = assertThrows(AssertionError.class, () -> {
+			clientOperation.operation(OperationType.WITHDRAWAL, -50);
+		});
+
+		String expectedMessage = "cannot deposit negative amount";
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
+
 }
