@@ -24,7 +24,7 @@ class AccountTest {
 	}
 
 	@Test
-	void whenClientDepositInHisAccount_ThenBalanceChanged() {
+	void whenClientDepositInHisAccount_ThenBalanceChanges() {
 		clientOperation.operation(OperationType.DEPOSIT, 50);
 		assertEquals(140, client.getAccount().getAccountBalance());
 
@@ -58,4 +58,10 @@ class AccountTest {
 
 	}
 
+	@Test
+	void whenClientRetreiveMoney_ThenBalanceChanges() {
+		clientOperation.operation(OperationType.WITHDRAWAL, 50);
+		System.out.println(this.client.getAccount().getAccountBalance());
+		assertEquals(40, client.getAccount().getAccountBalance());
+	}
 }

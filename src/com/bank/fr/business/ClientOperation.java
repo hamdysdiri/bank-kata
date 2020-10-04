@@ -35,6 +35,10 @@ public class ClientOperation {
 			setAmount(amount);
 			updateBalance();
 			break;
+		case WITHDRAWAL:
+			setAmount(amount);
+			this.account.setAccountBalance(this.account.getAccountBalance() - getAmount());
+			break;
 		default:
 			throw new IllegalArgumentException("Unkown Operation.");
 		}
