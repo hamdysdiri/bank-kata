@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.bank.fr.business.ClientOperation;
 import com.bank.fr.business.OperationType;
 
-class AccountTest {
+class ClientOperationTest {
 
 	private Account account;
 	private Client client;
@@ -24,14 +24,14 @@ class AccountTest {
 	}
 
 	@Test
-	void whenClientDepositInHisAccount_ThenBalanceChanged() {
+	void whenClientDepositInHisAccount_ThenBalanceChanges() {
 		clientOperation.operation(OperationType.DEPOSIT, 50);
 		assertEquals(140, client.getAccount().getAccountBalance());
 
 	}
 
 	@Test
-	void whenClientDepositInHisAccount_ThenAssertionErrorThrown() {
+	void whenClientDepositInHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
 
 		AssertionError exception = assertThrows(AssertionError.class, () -> {
 			clientOperation.operation(OperationType.DEPOSIT, -50);
@@ -58,4 +58,33 @@ class AccountTest {
 
 	}
 
+	@Test
+	void whenClientRetreiveMoney_ThenBalanceChanges() {
+		clientOperation.operation(OperationType.WITHDRAWAL, 50);
+		assertEquals(40, client.getAccount().getAccountBalance());
+	}
+
+	@Test
+	void whenClientRetreiveFromHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
+		AssertionError exception = assertThrows(AssertionError.class, () -> {
+			clientOperation.operation(OperationType.WITHDRAWAL, -50);
+		});
+
+		String expectedMessage = "cannot deposit negative amount";
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
+
+	@Test
+	void whenClientRetriveFromHisAccountAndBalanceIsLessThanZero_ThenAssertionErrorThrown() {
+		AssertionError exception = assertThrows(AssertionError.class, () -> {
+			clientOperation.operation(OperationType.WITHDRAWAL, 100);
+		});
+
+		String expectedMessage = "balance cannot be less than zero";
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
 }

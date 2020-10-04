@@ -29,11 +29,17 @@ public class ClientOperation {
 	}
 
 	public void operation(OperationType deposit, int amount) {
+
 		switch (deposit) {
 		case DEPOSIT:
 			validate(amount);
 			setAmount(amount);
-			updateBalance();
+			this.account.setAccountBalance(this.account.getAccountBalance() + getAmount());
+			break;
+		case WITHDRAWAL:
+			validate(amount);
+			setAmount(amount);
+			this.account.setAccountBalance(this.account.getAccountBalance() - getAmount());
 			break;
 		default:
 			throw new IllegalArgumentException("Unkown Operation.");
@@ -42,11 +48,8 @@ public class ClientOperation {
 	}
 
 	private void validate(int amount) {
+		assert this.account.getAccountBalance() >= amount : "balance cannot be less than zero";
 		assert amount > 0 : "cannot deposit negative amount";
 
-	}
-
-	private void updateBalance() {
-		this.account.setAccountBalance(this.account.getAccountBalance() + getAmount());
 	}
 }
