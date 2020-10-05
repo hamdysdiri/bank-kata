@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.bank.fr.business.ClientOperation;
-import com.bank.fr.business.OperationType;
 import com.bank.fr.entities.Account;
 import com.bank.fr.entities.Client;
 
