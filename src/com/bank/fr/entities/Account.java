@@ -10,13 +10,8 @@ public class Account {
 	private int balance = 0;
 	private List<ClientOperation> operations = new ArrayList<>();
 
-	public Account(int balance) {
-		super();
-		this.balance = balance;
-	}
-	
 	public Account() {
-		
+
 	}
 
 	public int getBalance() {
