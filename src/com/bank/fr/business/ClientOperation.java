@@ -20,6 +20,7 @@ public class ClientOperation {
 	}
 
 	public String getAmountDate() {
+
 		DateTimeFormatter meduimDateForm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 		return meduimDateForm.format(amountDate);
 	}
@@ -28,35 +29,35 @@ public class ClientOperation {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	private void setAmount(int amount) {
 		this.amount = amount;
 	}
 
-	public void operation(OperationType deposit, int amount) {
-
-		switch (deposit) {
-		case DEPOSIT:
-			validate(amount);
-			setAmount(amount);
-			account.setBalance(this.account.getBalance() + getAmount());
-			account.saveHistory(account, amount);
-			break;
-		case WITHDRAWAL:
-			validate(amount);
-			setAmount(amount);
-			account.setBalance(this.account.getBalance() - getAmount());
-			account.saveHistory(account, amount);
-			break;
-		default:
-			throw new IllegalArgumentException("Unkown Operation.");
-		}
+	public void deposit(int amount) {
+		validateAmount(amount);
+		setAmount(amount);
+		account.setBalance(this.account.getBalance() + getAmount());
+		account.saveHistory(account, amount);
 
 	}
 
-	private void validate(int amount) {
-		assert this.account.getBalance() >= amount : "balance cannot be less than zero";
+	public void withdrawal(int amount) {
+		validateAmount(amount);
+		validateBalanceWithDrawal(amount);
+
+		setAmount(amount);
+		account.setBalance(this.account.getBalance() - getAmount());
+		account.saveHistory(account, amount);
+
+	}
+
+	private void validateAmount(int amount) {
 		assert amount > 0 : "cannot deposit negative amount";
 
+	}
+
+	private void validateBalanceWithDrawal(int amount) {
+		assert this.account.getBalance() - amount > 0 : "balance cannot be less than zero";
 	}
 
 }

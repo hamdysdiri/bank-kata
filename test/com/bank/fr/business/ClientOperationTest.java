@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.bank.fr.business.ClientOperation;
-import com.bank.fr.business.OperationType;
 import com.bank.fr.entities.Account;
 import com.bank.fr.entities.Client;
 
@@ -20,15 +18,15 @@ class ClientOperationTest {
 
 	@BeforeEach
 	void setUp() {
-		account = new Account(90);
+		account = new Account();
 		client = new Client(1, "ralph", account);
 		clientOperation = new ClientOperation(account, 0);
 	}
 
 	@Test
 	void whenClientDepositInHisAccount_ThenBalanceChanges() {
-		clientOperation.operation(OperationType.DEPOSIT, 50);
-		assertEquals(140, client.getAccount().getBalance());
+		clientOperation.deposit(50);
+		assertEquals(50, client.getAccount().getBalance());
 
 	}
 
@@ -36,7 +34,7 @@ class ClientOperationTest {
 	void whenClientDepositInHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
 
 		AssertionError exception = assertThrows(AssertionError.class, () -> {
-			clientOperation.operation(OperationType.DEPOSIT, -50);
+			clientOperation.deposit(-50);
 		});
 
 		String expectedMessage = "cannot deposit negative amount";
@@ -47,29 +45,16 @@ class ClientOperationTest {
 	}
 
 	@Test
-	void whenClientMakeUnkownOperation_ThenIllegalExceptionThrown() {
-
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-			clientOperation.operation(OperationType.UNKOWN, 50);
-		});
-
-		String expectedMessage = "Unkown Operation";
-		String actualMessage = exception.getMessage();
-
-		assertTrue(actualMessage.contains(expectedMessage));
-
-	}
-
-	@Test
 	void whenClientRetreiveMoney_ThenBalanceChanges() {
-		clientOperation.operation(OperationType.WITHDRAWAL, 50);
-		assertEquals(40, client.getAccount().getBalance());
+		clientOperation.deposit(50);
+		clientOperation.withdrawal(40);
+		assertEquals(10, client.getAccount().getBalance());
 	}
 
 	@Test
 	void whenClientRetreiveFromHisAccountInvalidateAmount_ThenAssertionErrorThrown() {
 		AssertionError exception = assertThrows(AssertionError.class, () -> {
-			clientOperation.operation(OperationType.WITHDRAWAL, -50);
+			clientOperation.withdrawal(-50);
 		});
 
 		String expectedMessage = "cannot deposit negative amount";
@@ -81,7 +66,7 @@ class ClientOperationTest {
 	@Test
 	void whenClientRetriveFromHisAccountAndBalanceIsLessThanZero_ThenAssertionErrorThrown() {
 		AssertionError exception = assertThrows(AssertionError.class, () -> {
-			clientOperation.operation(OperationType.WITHDRAWAL, 100);
+			clientOperation.withdrawal(100);
 		});
 
 		String expectedMessage = "balance cannot be less than zero";
