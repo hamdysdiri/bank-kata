@@ -1,3 +1,7 @@
+
+# JDT-specific (Eclipse Java Development Tools)     
+.classpath
+
 ### Eclipse ###
 .metadata
 bin/
@@ -58,7 +62,7 @@ local.properties
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
+.project
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
@@ -86,7 +90,3 @@ local.properties
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# End of https://www.toptal.com/developers/gitignore/api/java,eclipse
