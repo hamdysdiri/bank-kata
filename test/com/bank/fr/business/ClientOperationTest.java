@@ -1,4 +1,4 @@
-package com.bank.fr.entities;
+package com.bank.fr.business;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import com.bank.fr.business.ClientOperation;
 import com.bank.fr.business.OperationType;
+import com.bank.fr.entities.Account;
+import com.bank.fr.entities.Client;
 
 class ClientOperationTest {
 
